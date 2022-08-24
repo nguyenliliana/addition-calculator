@@ -7,5 +7,6 @@ def calculate_mode(number_list):
     except statistics.StatisticsError as exc:
         return "Error calculating mode: {}".format(exc)
 
-# def do_calculation(number1, number2):
-#    return number1 + number2
+
+def calculate_sum(number1, number2):
+    return number1 + number2
