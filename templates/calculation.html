@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"> 
+ <link rel="stylesheet" href="../static/css/result.css">
+ <meta charset="UTF-8">
+ <meta http-equiv="X-UA-Compatible" content="IE=edge">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Document</title>
+</head>
+<body>
+ <div class="calculation-body">
+  <div class="header" >
+   <a href ="/"><i class="fa-solid fa-calculator" style="font-size:1.5em; color: black; "></i></a>
+   <h1> &nbsp; {{header}} Calculator </h1>
+  </div>
+  
+    {{errors}}
+    <p class="directions-p"> Enter your numbers: </p>
+    <form method="post" actions=".">
+     <p><input name="number1" /></p>
+     <p><input name="number2" /></p>
+     <p><input class="but" type="submit" value="Do calculation" /></p>
+    </form>
+  
+  </div>
+</body>
+</html>

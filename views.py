@@ -1,21 +1,23 @@
-from flask import Blueprint, request
-from processing import calculate_sum, calculate_mode
+from flask import Blueprint, request, render_template
+from processing import calculate_sum, calculate_mode, calculate_difference, calculate_product, calculate_quotient
 views = Blueprint(__name__, "views")
 
 
 @views.route("/")
 def home():
-    return '''
-    <html>
-     <body>
-      <div style="display:flex; flex-direction: horizontal; align-items: center;" >
-       <a href ="/"><img src='https://iconarchive.com/download/i83704/custom-icon-design/mono-general-3/home.ico' style="width:auto; height: 1.5em; " ></a>
-       <h1> &nbsp; Home </h1>
-      </div>
-      <p style="font-size: 20px;" ><a href ="/addition">Addition Calculator </a>
-      <p style="font-size: 20px;" ><a href ="/mode">Mode Calculator </a>
-    </html>
-    '''
+    return render_template("index.html")
+    # return '''
+    # <html>
+    #  <body>
+    #   <div style="display:flex; flex-direction: horizontal; align-items: center;" >
+    #    <a href ="/"><img src='https://iconarchive.com/download/i83704/custom-icon-design/mono-general-3/home.ico' style="width:auto; height: 1.5em; " ></a>
+    #    <h1> &nbsp; Home </h1>
+    #   </div>
+    #   <p style="font-size: 20px;" ><a href ="/addition">Addition Calculator </a>
+    #   <p style="font-size: 20px;" ><a href ="/subtraction">Subtraction Calculator </a>
+    #   <p style="font-size: 20px;" ><a href ="/mode">Mode Calculator </a>
+    # </html>
+    # '''
 
 
 @views.route('/addition', methods=["GET", "POST"])
@@ -36,31 +38,78 @@ def addition_page():
                 request.form["number2"])
         if number1 is not None and number2 is not None:
             result = calculate_sum(number1, number2)
-            return '''
-          <html>
-           <body>
-            <p> The result is {result} </p>
-            <p><a href ="/addition">Click here to calculate again </a>
-           <body>
-          </html>
-         '''.format(result=result)
-    return '''
-        <html>
-         <body>
-          <div style="display:flex; flex-direction: horizontal; align-items: center;" >
-           <a href ="/"><img src='https://iconarchive.com/download/i83704/custom-icon-design/mono-general-3/home.ico' style="width:auto; height: 1.5em; " ></a>
-           <h1> &nbsp; Addition Calculator </h1>
-          </div>
-          {errors}
-          <p> Enter your numbers: </p>
-          <form method="post" actions=".">
-           <p><input name="number1" /></p>
-           <p><input name="number2" /></p>
-           <p><input type="submit" value="Do calculation" /></p>
-          </form>
-         </body>
-        </html>
-    '''.format(errors=errors)
+            return render_template("result.html", result=result, link='/addition')
+
+    return render_template("calculation.html", header="Addition", errors=errors)
+
+
+@views.route('/subtraction', methods=["GET", "POST"])
+def subtraction_page():
+    errors = ""
+    if request.method == "POST":
+        number1 = None
+        number2 = None
+        try:
+            number1 = float(request.form["number1"])
+        except:
+            errors += "<p>{!r} is not a number.</p>\n".format(
+                request.form["number1"])
+        try:
+            number2 = float(request.form["number2"])
+        except:
+            errors += "<p>{!r} is not a number.</p>\n".format(
+                request.form["number2"])
+        if number1 is not None and number2 is not None:
+            result = calculate_difference(number1, number2)
+            return render_template("result.html", result=result, link='/subtraction')
+
+    return render_template("calculation.html", header="Subtraction", errors=errors)
+
+
+@views.route('/multiplication', methods=["GET", "POST"])
+def multiplication_page():
+    errors = ""
+    if request.method == "POST":
+        number1 = None
+        number2 = None
+        try:
+            number1 = float(request.form["number1"])
+        except:
+            errors += "<p>{!r} is not a number.</p>\n".format(
+                request.form["number1"])
+        try:
+            number2 = float(request.form["number2"])
+        except:
+            errors += "<p>{!r} is not a number.</p>\n".format(
+                request.form["number2"])
+        if number1 is not None and number2 is not None:
+            result = calculate_product(number1, number2)
+            return render_template("result.html", result=result, link='/multiplication')
+
+    return render_template("calculation.html", header="Multiplication", errors=errors)
+
+
+@views.route('/division', methods=["GET", "POST"])
+def division_page():
+    errors = ""
+    if request.method == "POST":
+        number1 = None
+        number2 = None
+        try:
+            number1 = float(request.form["number1"])
+        except:
+            errors += "<p>{!r} is not a number.</p>\n".format(
+                request.form["number1"])
+        try:
+            number2 = float(request.form["number2"])
+        except:
+            errors += "<p>{!r} is not a number.</p>\n".format(
+                request.form["number2"])
+        if number1 is not None and number2 is not None:
+            result = calculate_quotient(number1, number2)
+            return render_template("result.html", result=result, link='/division')
+
+    return render_template("calculation.html", header="Division", errors=errors)
 
 
 inputs = []
